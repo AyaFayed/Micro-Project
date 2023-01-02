@@ -33,7 +33,7 @@ public class ReservationStation {
 	public String add(int index, int order, Operation op, String reg1, String reg2) {
 		for (ReservationStationCell cell : reservationStation) {
 			if (cell.isAvailable()) {
-				cell.occupy(index,order, op, reg1, reg2);
+				cell.occupy(index, order, op, reg1, reg2);
 				availableReservationStations--;
 				return cell.getTag();
 			}

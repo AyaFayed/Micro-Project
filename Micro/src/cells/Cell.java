@@ -68,6 +68,7 @@ public abstract class Cell {
 	public void setResult(double result) {
 		this.result = result;
 	}
+
 	public int getIndex() {
 		return index;
 	}

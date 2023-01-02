@@ -18,9 +18,9 @@ public class StoreBufferCell extends BufferCell {
 	}
 
 	public void occupy(int index, int order, String address, String register) {
-		this.occupy(index,order, address);
-		this.q=null;
-		this.v=null;
+		this.occupy(index, order, address);
+		this.q = null;
+		this.v = null;
 		if (Registers.getInstance().hasValidValue(register)) {
 			this.v = Double.parseDouble(Registers.getInstance().read(register));
 			CPU.getInstance().addExecuting(this);

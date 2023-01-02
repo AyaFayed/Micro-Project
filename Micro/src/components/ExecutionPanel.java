@@ -25,53 +25,40 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 	public TextArea[][] memory;
 	/*
 	 * 
-	 * leftColumn:
-	 * 		code
-	 * 		Buffers:
-	 * 			L.D
-	 * 			S.D
+	 * leftColumn: code Buffers: L.D S.D
 	 * 
-	 * middleCol:
-	 * 		registers 
-	 * 		memory
+	 * middleCol: registers memory
 	 * 
-	 * rightColumn:
-	 * 		ReservationStations:
-	 * 			add
-	 * 			mul
-	 * 		instructionQueue
+	 * rightColumn: ReservationStations: add mul instructionQueue
 	 * 
 	 * 
 	 * 
 	 * 
 	 */
-	
-	
+
 	private JPanel leftColumn;
 	private JPanel middleColumn;
 	private JPanel rightColumn;
-	
-	
-	
+
 	public ExecutionPanel() {
 		code = new TextArea();
 		code.setFont(new Font("Calisto MT", 0, 22));
-		
+
 		instructionsQueue = new TextArea[1][6];
 		initializeinstructionsQueue();
-		
+
 		run = new JButton("Run");
 		run.addActionListener(this);
 		// open the lecture for reference
 		registers = new TextArea[35][2];
 
 		for (int i = 0; i < 35; i++) {
-			if(i < 3) {
+			if (i < 3) {
 				registers[i][0] = new TextArea("Register", 1, 20, TextArea.SCROLLBARS_NONE);
 				registers[i][0].setEditable(false);
 				registers[i][1] = new TextArea("Value", 1, 20, TextArea.SCROLLBARS_NONE);
 				registers[i][1].setEditable(false);
-			}else {
+			} else {
 				registers[i][0] = new TextArea("F" + (i - 3), 1, 20, TextArea.SCROLLBARS_NONE);
 				registers[i][0].setEditable(false);
 				registers[i][1] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
@@ -191,17 +178,17 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 	void paint() {
 		// main panel layout
 		this.setLayout(new GridLayout(1, 3));
-		
+
 		// setup left column
 		leftColumn = new JPanel();
 		leftColumn.setLayout(new GridLayout(2, 1));
-		
+
 		// code
 		leftColumn.add(code);
-		
+
 		// buffers
 		JPanel buffers = new JPanel(new GridLayout(2, 1));
-		
+
 		// Load Buffers
 		JPanel loadBuffersContainer = new JPanel(new GridLayout(loadBuffers.length, loadBuffers[0].length));
 		for (int i = 0; i < loadBuffers.length; i++) {
@@ -213,7 +200,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		loadBuffersLabled.add(new JLabel("Load Buffers"), BorderLayout.NORTH);
 		loadBuffersLabled.add(loadBuffersContainer, BorderLayout.CENTER);
 		buffers.add(loadBuffersLabled);
-		
+
 		// Store Buffers
 		JPanel storeBuffersContainer = new JPanel(new GridLayout(storeBuffers.length, storeBuffers[0].length));
 		for (int i = 0; i < storeBuffers.length; i++) {
@@ -221,25 +208,25 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 				storeBuffersContainer.add(storeBuffers[i][j]);
 			}
 		}
-		
+
 		JPanel storeBuffersLabled = new JPanel(new BorderLayout());
 		storeBuffersLabled.add(new JLabel("store Buffers"), BorderLayout.NORTH);
 		storeBuffersLabled.add(storeBuffersContainer, BorderLayout.CENTER);
 		buffers.add(storeBuffersLabled);
-		
+
 		leftColumn.add(buffers);
-		
+
 		this.add(leftColumn);
-		
+
 		// middle layer
 		middleColumn = new JPanel(new GridLayout(2, 1));
-		
+
 		// registers
 		JPanel registersContainer = new JPanel(new BorderLayout());
-		
+
 		JLabel registersLable = new JLabel("Register File");
 		registersContainer.add(registersLable, BorderLayout.NORTH);
-		
+
 		JPanel registersTable = new JPanel(new GridLayout(12, 6));
 		for (int i = 0; i < registers.length; i++) {
 			for (int j = 0; j < registers[i].length; j++) {
@@ -248,13 +235,13 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		}
 		registersContainer.add(registersTable, BorderLayout.CENTER);
 		middleColumn.add(registersContainer);
-		
+
 		// memory
 		JPanel memoryContainer = new JPanel(new BorderLayout());
-		
+
 		JLabel memoryLable = new JLabel("Memory");
 		memoryContainer.add(memoryLable, BorderLayout.NORTH);
-		
+
 		JPanel memoryTable = new JPanel(new GridLayout(12, 6));
 		for (int i = 0; i < memory.length; i++) {
 			for (int j = 0; j < memory[i].length; j++) {
@@ -263,18 +250,19 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		}
 		memoryContainer.add(memoryTable, BorderLayout.CENTER);
 		middleColumn.add(memoryContainer);
-		
+
 		this.add(middleColumn);
-		
+
 		// right column
 		rightColumn = new JPanel(new GridLayout(2, 1));
-		
+
 		// instruction queue
-		
+
 		JPanel instructionsQueueContainer = new JPanel(new BorderLayout());
-		
+
 		instructionsQueueContainer.add(new Label("Instruction Queue"), BorderLayout.NORTH);
-		JPanel instructionsQueueTable = new JPanel(new GridLayout(instructionsQueue.length, instructionsQueue[0].length));
+		JPanel instructionsQueueTable = new JPanel(
+				new GridLayout(instructionsQueue.length, instructionsQueue[0].length));
 		instructionsQueueTable.setPreferredSize(new Dimension(100, 100));
 		for (int i = 0; i < instructionsQueue.length; i++) {
 			for (int j = 0; j < instructionsQueue[0].length; j++) {
@@ -284,31 +272,30 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		JScrollPane instructionsQueueScroll = new JScrollPane(instructionsQueueTable);
 		instructionsQueueScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		instructionsQueueScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		
+
 		instructionsQueueContainer.add(instructionsQueueScroll, BorderLayout.CENTER);
-		
-		
+
 		rightColumn.add(instructionsQueueContainer);
-		
-		
+
 		// reservation station
 		JPanel reservationStations = new JPanel(new GridLayout(2, 1));
-		
+
 		// add resrvation station
-		JPanel addReservationStationsTable = new JPanel(new GridLayout(addReservationStations.length, addReservationStations[0].length));
+		JPanel addReservationStationsTable = new JPanel(
+				new GridLayout(addReservationStations.length, addReservationStations[0].length));
 		for (int i = 0; i < addReservationStations.length; i++) {
 			for (int j = 0; j < addReservationStations[0].length; j++) {
 				addReservationStationsTable.add(addReservationStations[i][j]);
 			}
 		}
-		
+
 		JPanel addReservationStationsContainer = new JPanel(new BorderLayout());
 		addReservationStationsContainer.add(new JLabel("Add Reservation Stations"), BorderLayout.NORTH);
 		addReservationStationsContainer.add(addReservationStationsTable, BorderLayout.CENTER);
 		reservationStations.add(addReservationStationsContainer);
-		
-		
-		JPanel mulReservationStationsTable = new JPanel(new GridLayout(mulReservationStations.length, mulReservationStations[0].length));
+
+		JPanel mulReservationStationsTable = new JPanel(
+				new GridLayout(mulReservationStations.length, mulReservationStations[0].length));
 		for (int i = 0; i < mulReservationStations.length; i++) {
 			for (int j = 0; j < mulReservationStations[0].length; j++) {
 				mulReservationStationsTable.add(mulReservationStations[i][j]);
@@ -318,21 +305,21 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		mulReservationStationsContainer.add(new JLabel("mul Reservation Stations"), BorderLayout.NORTH);
 		mulReservationStationsContainer.add(mulReservationStationsTable, BorderLayout.CENTER);
 		reservationStations.add(mulReservationStationsContainer);
-		
+
 		rightColumn.add(reservationStations);
-		
+
 		this.add(rightColumn);
 	}
-	
+
 	void initializeMemory() {
 		memory = new TextArea[35][2];
 		for (int i = 0; i < memory.length; i++) {
-			if(i < 3) {
+			if (i < 3) {
 				memory[i][0] = new TextArea("Address", 1, 20, TextArea.SCROLLBARS_NONE);
 				memory[i][0].setEditable(false);
 				memory[i][1] = new TextArea("Value", 1, 20, TextArea.SCROLLBARS_NONE);
 				memory[i][1].setEditable(false);
-			}else {
+			} else {
 				memory[i][0] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
 				memory[i][0].setEditable(false);
 				memory[i][1] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
@@ -340,7 +327,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 			}
 		}
 	}
-	
+
 	void initializeinstructionsQueue() {
 		instructionsQueue[0][0] = new TextArea("Instruction", 1, 20, TextArea.SCROLLBARS_NONE);
 		instructionsQueue[0][0].setEditable(false);
@@ -355,7 +342,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		instructionsQueue[0][5] = new TextArea("Write Result", 1, 20, TextArea.SCROLLBARS_NONE);
 		instructionsQueue[0][5].setEditable(false);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == run) {
@@ -370,7 +357,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 			} catch (Exception ex) {
 				// System.out.println(ex.getMessage());
 			}
-		} 
+		}
 	}
 
 }

@@ -25,10 +25,10 @@ public class ReservationStationCell extends Cell {
 	public void occupy(int index, int order, Operation op, String reg1, String reg2) {
 		this.setIndex(index);
 		this.occupy(order);
-		this.vj=null;
-		this.vk=null;
-		this.qj=null;
-		this.qk=null;
+		this.vj = null;
+		this.vk = null;
+		this.qj = null;
+		this.qk = null;
 		this.op = op;
 		if (op == Operation.DIV || op == Operation.SUB)
 			setLatency(subOrDivLatency);

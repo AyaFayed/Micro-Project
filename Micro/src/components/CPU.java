@@ -110,22 +110,23 @@ public class CPU {
 			switch (instruction.getOperation()) {
 			case ADD:
 			case SUB:
-				tag = addReservationStation.add(instruction.getIndex() ,issueOrder, instruction.getOperation(), instruction.getOperand1(),
-						instruction.getOperand2());
+				tag = addReservationStation.add(instruction.getIndex(), issueOrder, instruction.getOperation(),
+						instruction.getOperand1(), instruction.getOperand2());
 				Registers.getInstance().waitForTheResult(tag, instruction.getDestination());
 				break;
 			case DIV:
 			case MUL:
-				tag = mulReservationStation.add(instruction.getIndex() ,issueOrder, instruction.getOperation(), instruction.getOperand1(),
-						instruction.getOperand2());
+				tag = mulReservationStation.add(instruction.getIndex(), issueOrder, instruction.getOperation(),
+						instruction.getOperand1(), instruction.getOperand2());
 				Registers.getInstance().waitForTheResult(tag, instruction.getDestination());
 				break;
 			case L:
-				tag = loadBuffer.add(instruction.getIndex() ,issueOrder, instruction.getOperand1());
+				tag = loadBuffer.add(instruction.getIndex(), issueOrder, instruction.getOperand1());
 				Registers.getInstance().waitForTheResult(tag, instruction.getDestination());
 				break;
 			case S:
-				storeBuffer.add(instruction.getIndex() ,issueOrder, instruction.getOperand1(), instruction.getDestination());
+				storeBuffer.add(instruction.getIndex(), issueOrder, instruction.getOperand1(),
+						instruction.getDestination());
 				break;
 
 			}
@@ -134,11 +135,11 @@ public class CPU {
 	}
 
 	public void execute() {
-		ArrayList<Cell> stillExecuting= new ArrayList<>();
+		ArrayList<Cell> stillExecuting = new ArrayList<>();
 		for (int i = 0; i < executing.size(); i++) {
 			Cell cell = executing.get(i);
-			if(willStartExecutionInTheNextCycle.contains(cell.getIndex())) {
-				instructionsTable[cell.getIndex()][4] = "" + cycle+ "..";
+			if (willStartExecutionInTheNextCycle.contains(cell.getIndex())) {
+				instructionsTable[cell.getIndex()][4] = "" + cycle + "..";
 				willStartExecutionInTheNextCycle.remove(cell.getIndex());
 			}
 			cell.incExecutedCycles();
@@ -146,12 +147,11 @@ public class CPU {
 				instructionsTable[cell.getIndex()][4] += "" + cycle;
 				if (cell.getTag().charAt(0) != 's')
 					writeBack.add(cell);
-			}
-			else {
+			} else {
 				stillExecuting.add(cell);
 			}
 		}
-	
+
 		executing = stillExecuting;
 	}
 
@@ -176,7 +176,7 @@ public class CPU {
 		instructionsTable[cell.getIndex()][5] = "" + cycle;
 
 	}
-	
+
 	public void startExecutingInstruction(int index) {
 		willStartExecutionInTheNextCycle.add(index);
 	}
@@ -239,8 +239,8 @@ public class CPU {
 	public void addWriteBack(Cell writingBackCell) {
 		this.writeBack.add(writingBackCell);
 	}
-	
-	public String [][] getInstructionsTable(){
+
+	public String[][] getInstructionsTable() {
 		return instructionsTable;
 	}
 
@@ -256,8 +256,8 @@ public class CPU {
 		System.out.println("Cycle " + cycle);
 		System.out.println("---------------------------");
 //		displayInstructionQueue();
-		for(String [] arr: instructionsTable)
-		System.out.println(Arrays.toString(arr));
+		for (String[] arr : instructionsTable)
+			System.out.println(Arrays.toString(arr));
 		Registers.getInstance().display();
 		addReservationStation.display();
 		mulReservationStation.display();

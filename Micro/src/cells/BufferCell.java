@@ -12,11 +12,10 @@ public abstract class BufferCell extends Cell {
 		this.occupy(order);
 		this.setAddress(address);
 	}
-	
+
 	public void occupy(int index, int order, String address, String register) {
 
 	}
-
 
 	public String getAddress() {
 		return address;
