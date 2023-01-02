@@ -27,7 +27,8 @@ public class MainGUI extends JFrame implements ActionListener {
 		setTitle("Micro Project");
 		setMinimumSize(new Dimension(500, 500));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		init();
+		//init();
+		executionPanel();
 	}
 
 	void init() {
@@ -91,6 +92,14 @@ public class MainGUI extends JFrame implements ActionListener {
 		this.validate();
 	}
 
+	void executionPanel() {
+		this.getContentPane().removeAll();
+		mainPanel = new ExecutionPanel();
+		this.add(mainPanel);
+		this.repaint();
+		this.validate();
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -99,7 +108,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			CPU.getInstance().setMulLatency(Integer.parseInt(mulLatency.getText()));
 			CPU.getInstance().setDivLatency(Integer.parseInt(divLatency.getText()));
 			CPU.getInstance().setSubLatency(Integer.parseInt(subLatency.getText()));
-			this.getContentPane().removeAll();
+			executionPanel();
 		}
 		this.repaint();
 		this.revalidate();
