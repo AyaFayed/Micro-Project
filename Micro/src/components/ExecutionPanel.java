@@ -12,10 +12,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 
 	JPanel mainPanel;
 	TextArea code;
-	JButton runAll;
-	JButton nextCycle;
-	boolean codeRead;
-	JButton reset;
+	JButton run;
 	public TextArea log;
 	public TextArea[][] registers;
 	public TextArea[][] addReservationStations;
@@ -25,15 +22,10 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 	public TextArea[][] instructionsQueue;
 
 	public ExecutionPanel() {
-		codeRead = false;
 		code = new TextArea();
 		code.setFont(new Font("Calisto MT", 0, 22));
-		nextCycle = new JButton("Next Cycle");
-		runAll = new JButton("Run ALL");
-		reset = new JButton("Reset");
-		nextCycle.addActionListener(this);
-		runAll.addActionListener(this);
-		reset.addActionListener(this);
+		run = new JButton("Run");
+		run.addActionListener(this);
 		// open the lecture for reference
 		registers = new TextArea[33][2];
 
@@ -155,26 +147,34 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 			storeBuffers[i][4].setEditable(false);
 		}
 
-		instructionsQueue = new TextArea[code.getRows()][6];
-		instructionsQueue[0][0] = new TextArea("Instruction", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsQueue[0][0].setEditable(false);
-		instructionsQueue[0][1] = new TextArea("j", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsQueue[0][1].setEditable(false);
-		instructionsQueue[0][2] = new TextArea("k", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsQueue[0][2].setEditable(false);
-		instructionsQueue[0][3] = new TextArea("Issue", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsQueue[0][3].setEditable(false);
-		instructionsQueue[0][4] = new TextArea("Execution", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsQueue[0][4].setEditable(false);
-		instructionsQueue[0][5] = new TextArea("Write Result", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsQueue[0][5].setEditable(false);
-
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		if (e.getSource() == run) {
+			code.setEditable(false);
+			instructionsQueue = new TextArea[code.getRows()][6];
+			instructionsQueue[0][0] = new TextArea("Instruction", 1, 20, TextArea.SCROLLBARS_NONE);
+			instructionsQueue[0][0].setEditable(false);
+			instructionsQueue[0][1] = new TextArea("j", 1, 20, TextArea.SCROLLBARS_NONE);
+			instructionsQueue[0][1].setEditable(false);
+			instructionsQueue[0][2] = new TextArea("k", 1, 20, TextArea.SCROLLBARS_NONE);
+			instructionsQueue[0][2].setEditable(false);
+			instructionsQueue[0][3] = new TextArea("Issue", 1, 20, TextArea.SCROLLBARS_NONE);
+			instructionsQueue[0][3].setEditable(false);
+			instructionsQueue[0][4] = new TextArea("Execution", 1, 20, TextArea.SCROLLBARS_NONE);
+			instructionsQueue[0][4].setEditable(false);
+			instructionsQueue[0][5] = new TextArea("Write Result", 1, 20, TextArea.SCROLLBARS_NONE);
+			instructionsQueue[0][5].setEditable(false);
+			try {
+//				For each instruction (line of code)
+//				CPU.getInstance().addInstruction(line of code);
+				CPU.getInstance().run();
+				run.setEnabled(false);
+			} catch (Exception ex) {
+				// System.out.println(ex.getMessage());
+			}
+		} 
 	}
 
 }

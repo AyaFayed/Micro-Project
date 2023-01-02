@@ -20,6 +20,7 @@ public class CPU {
 	private Queue<Instruction> instructions;
 	private String[][] instructionsTable;
 	private ArrayList<Cell> executing;
+	private HashSet<Integer> willStartExecutionInTheNextCycle;
 	private PriorityQueue<Cell> writeBack;
 	private LoadBuffer loadBuffer;
 	private StoreBuffer storeBuffer;
@@ -31,6 +32,7 @@ public class CPU {
 	private CPU() {
 		this.instructions = new LinkedList<>();
 		this.executing = new ArrayList<>();
+		this.willStartExecutionInTheNextCycle = new HashSet<>();
 		this.writeBack = new PriorityQueue<>((cell1, cell2) -> cell1.getOrder() - cell2.getOrder());
 		this.issueOrder = 0;
 		this.loadBuffer = new LoadBuffer(loadLatency);
@@ -134,6 +136,10 @@ public class CPU {
 		ArrayList<Integer> finished = new ArrayList<>();
 		for (int i = 0; i < executing.size(); i++) {
 			Cell cell = executing.get(i);
+			if(willStartExecutionInTheNextCycle.contains(cell.getOrder())) {
+				instructionsTable[cell.getOrder()][4] = "" + cycle+ "..";
+				willStartExecutionInTheNextCycle.remove(cell.getOrder());
+			}
 			cell.incExecutedCycles();
 			if (cell.finishedExecution()) {
 				finished.add(i);
@@ -170,7 +176,7 @@ public class CPU {
 	}
 	
 	public void startExecutingInstruction(int index) {
-		instructionsTable[index][4] = "" + (cycle+1)+ "..";
+		willStartExecutionInTheNextCycle.add(index);
 	}
 
 	public int getAddLatency() {
@@ -230,6 +236,10 @@ public class CPU {
 
 	public void addWriteBack(Cell writingBackCell) {
 		this.writeBack.add(writingBackCell);
+	}
+	
+	public String [][] getInstructionsTable(){
+		return instructionsTable;
 	}
 
 	public void displayInstructionQueue() {
