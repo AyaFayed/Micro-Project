@@ -398,6 +398,10 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 				}
 			}
 			CPU.getInstance().runNextCycle();
+			if(CPU.getInstance().finishedExecution()) {
+				runAll.setEnabled(false);
+				runNextCycle.setEnabled(false);
+			}
 		}
 	}
 

@@ -18,6 +18,7 @@ public class CPU {
 	private int storeLatency = 2;
 	private int issueOrder;
 	private int cycle = 0;
+	private boolean done= false;
 	private Queue<Instruction> instructions;
 	private String[][] instructionsTable;
 	private ArrayList<Cell> executing;
@@ -61,6 +62,7 @@ public class CPU {
 			display();
 			cycle++;
 		}
+		done=true;
 	}
 
 	public void runNextCycle() {
@@ -79,6 +81,9 @@ public class CPU {
 			}
 			display();
 			cycle++;
+		}
+		else {
+			done=true;
 		}
 	}
 
@@ -237,6 +242,9 @@ public class CPU {
 
 	public void incIssueOrder() {
 		this.issueOrder++;
+	}
+	public boolean finishedExecution() {
+		return this.done;
 	}
 
 	public Queue<Instruction> getInstructions() {
