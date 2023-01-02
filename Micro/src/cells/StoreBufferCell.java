@@ -13,12 +13,14 @@ public class StoreBufferCell extends BufferCell {
 	}
 
 	public void execute() {
-		CPU.getInstance().startExecutingInstruction(this.getOrder());
+		CPU.getInstance().startExecutingInstruction(this.getIndex());
 		Memory.getInstance().store(this.getAddress(), v);
 	}
 
-	public void occupy(int order, String address, String register) {
-		this.occupy(order, address);
+	public void occupy(int index, int order, String address, String register) {
+		this.occupy(index,order, address);
+		this.q=null;
+		this.v=null;
 		if (Registers.getInstance().hasValidValue(register)) {
 			this.v = Double.parseDouble(Registers.getInstance().read(register));
 			CPU.getInstance().addExecuting(this);

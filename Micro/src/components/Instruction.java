@@ -7,6 +7,7 @@ public class Instruction {
 	private String operand2;
 	private String destination;
 	private String instruction;
+	private int index;
 
 	public Instruction(String instruction) {
 		this.instruction = instruction;
@@ -72,7 +73,13 @@ public class Instruction {
 	public String getInstruction() {
 		return instruction;
 	}
-
+	
+	public void setIndex(int index) {
+		this.index=index;
+	}
+	public int getIndex() {
+		return index;
+	}
 	public void display() {
 		System.out.println(this.instruction);
 	}

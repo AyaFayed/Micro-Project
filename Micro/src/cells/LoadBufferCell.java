@@ -9,7 +9,8 @@ public class LoadBufferCell extends BufferCell {
 		super(tag, latency);
 	}
 
-	public void occupy(int order, String address) {
+	public void occupy(int index, int order, String address) {
+		this.setIndex(index);
 		this.occupy(order);
 		this.setAddress(address);
 		CPU.getInstance().addExecuting(this);
@@ -17,7 +18,7 @@ public class LoadBufferCell extends BufferCell {
 	}
 
 	public void execute() {
-		CPU.getInstance().startExecutingInstruction(this.getOrder());
+		CPU.getInstance().startExecutingInstruction(this.getIndex());
 		this.setResult(Memory.getInstance().load(this.getAddress()));
 	}
 

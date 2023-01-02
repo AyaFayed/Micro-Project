@@ -29,10 +29,10 @@ public class Buffer {
 		availableBuffers--;
 	}
 
-	public String add(int order, String address) {
+	public String add(int index,int order, String address) {
 		for (BufferCell cell : buffer) {
 			if (cell.isAvailable()) {
-				cell.occupy(order, address);
+				cell.occupy(index, order, address);
 				availableBuffers--;
 				return cell.getTag();
 			}

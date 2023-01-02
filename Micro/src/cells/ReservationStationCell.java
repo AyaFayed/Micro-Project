@@ -22,8 +22,13 @@ public class ReservationStationCell extends Cell {
 		return vj != null && vk != null;
 	}
 
-	public void occupy(int order, Operation op, String reg1, String reg2) {
+	public void occupy(int index, int order, Operation op, String reg1, String reg2) {
+		this.setIndex(index);
 		this.occupy(order);
+		this.vj=null;
+		this.vk=null;
+		this.qj=null;
+		this.qk=null;
 		this.op = op;
 		if (op == Operation.DIV || op == Operation.SUB)
 			setLatency(subOrDivLatency);
@@ -46,7 +51,7 @@ public class ReservationStationCell extends Cell {
 	}
 
 	public void execute() {
-		CPU.getInstance().startExecutingInstruction(this.getOrder());
+		CPU.getInstance().startExecutingInstruction(this.getIndex());
 		switch (op) {
 		case ADD:
 			setResult(vj + vk);

@@ -5,6 +5,7 @@ public abstract class Cell {
 	private String tag;
 	private int busy;
 	private int order;
+	int index;
 	private int executedCycles;
 	private Double result;
 
@@ -66,6 +67,13 @@ public abstract class Cell {
 
 	public void setResult(double result) {
 		this.result = result;
+	}
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 	public void occupy(int order) {

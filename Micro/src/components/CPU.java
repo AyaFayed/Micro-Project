@@ -53,10 +53,10 @@ public class CPU {
 			}
 			Cell writeBackCell = writeBack.poll();
 			execute();
+			issue();
 			if (writeBackCell != null) {
 				writeBack(writeBackCell);
 			}
-			issue();
 			display();
 			cycle++;
 		}
@@ -67,6 +67,7 @@ public class CPU {
 		this.instructionsTable = new String[n][6];
 		for (int i = 0; i < n; i++) {
 			Instruction instruction = instructions.poll();
+			instruction.setIndex(i);
 			instructions.add(instruction);
 			this.instructionsTable[i][0] = instruction.getInstruction();
 			this.instructionsTable[i][1] = instruction.getOperand1().toUpperCase();
@@ -104,27 +105,27 @@ public class CPU {
 	public void issue() {
 		if (canIssue()) {
 			Instruction instruction = instructions.poll();
-			instructionsTable[issueOrder][3] = "" + cycle;
+			instructionsTable[instruction.getIndex()][3] = "" + cycle;
 			String tag;
 			switch (instruction.getOperation()) {
 			case ADD:
 			case SUB:
-				tag = addReservationStation.add(issueOrder, instruction.getOperation(), instruction.getOperand1(),
+				tag = addReservationStation.add(instruction.getIndex() ,issueOrder, instruction.getOperation(), instruction.getOperand1(),
 						instruction.getOperand2());
 				Registers.getInstance().waitForTheResult(tag, instruction.getDestination());
 				break;
 			case DIV:
 			case MUL:
-				tag = mulReservationStation.add(issueOrder, instruction.getOperation(), instruction.getOperand1(),
+				tag = mulReservationStation.add(instruction.getIndex() ,issueOrder, instruction.getOperation(), instruction.getOperand1(),
 						instruction.getOperand2());
 				Registers.getInstance().waitForTheResult(tag, instruction.getDestination());
 				break;
 			case L:
-				tag = loadBuffer.add(issueOrder, instruction.getOperand1());
+				tag = loadBuffer.add(instruction.getIndex() ,issueOrder, instruction.getOperand1());
 				Registers.getInstance().waitForTheResult(tag, instruction.getDestination());
 				break;
 			case S:
-				storeBuffer.add(issueOrder, instruction.getOperand1(), instruction.getDestination());
+				storeBuffer.add(instruction.getIndex() ,issueOrder, instruction.getOperand1(), instruction.getDestination());
 				break;
 
 			}
@@ -133,24 +134,31 @@ public class CPU {
 	}
 
 	public void execute() {
-		ArrayList<Integer> finished = new ArrayList<>();
 		for (int i = 0; i < executing.size(); i++) {
 			Cell cell = executing.get(i);
-			if(willStartExecutionInTheNextCycle.contains(cell.getOrder())) {
-				instructionsTable[cell.getOrder()][4] = "" + cycle+ "..";
-				willStartExecutionInTheNextCycle.remove(cell.getOrder());
+			if(willStartExecutionInTheNextCycle.contains(cell.getIndex())) {
+				instructionsTable[cell.getIndex()][4] = "" + cycle+ "..";
+				willStartExecutionInTheNextCycle.remove(cell.getIndex());
 			}
 			cell.incExecutedCycles();
 			if (cell.finishedExecution()) {
-				finished.add(i);
 				if (cell.getTag().charAt(0) != 's')
 					writeBack.add(cell);
 			}
 		}
-		for (int i : finished) {
-			Cell finishedExecution = executing.remove(i);
-			instructionsTable[finishedExecution.getOrder()][4] += "" + cycle;
+		ArrayList<Cell> stillExecuting= new ArrayList<>();
+		
+		for (int i = 0; i < executing.size(); i++) {
+			Cell cell = executing.get(i);
+			if(cell.finishedExecution()) {
+				instructionsTable[cell.getIndex()][4] += "" + cycle;
+			}
+			else {
+				stillExecuting.add(cell);
+			}
 		}
+		
+		executing = stillExecuting;
 	}
 
 	public void writeBack(Cell cell) {
@@ -171,7 +179,7 @@ public class CPU {
 		storeBuffer.checkValueOnBus(cell.getTag(), result);
 		addReservationStation.checkValueOnBus(cell.getTag(), result);
 		mulReservationStation.checkValueOnBus(cell.getTag(), result);
-		instructionsTable[cell.getOrder()][5] = "" + cycle;
+		instructionsTable[cell.getIndex()][5] = "" + cycle;
 
 	}
 	
@@ -253,7 +261,7 @@ public class CPU {
 	public void display() {
 		System.out.println("Cycle " + cycle);
 		System.out.println("---------------------------");
-		displayInstructionQueue();
+//		displayInstructionQueue();
 		for(String [] arr: instructionsTable)
 		System.out.println(Arrays.toString(arr));
 		Registers.getInstance().display();

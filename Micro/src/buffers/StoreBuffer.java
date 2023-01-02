@@ -15,11 +15,11 @@ public class StoreBuffer extends Buffer {
 		}
 	}
 
-	public void add(int order, String address, String register) {
+	public void add(int index, int order, String address, String register) {
 		BufferCell[] b = getBuffer();
 		for (BufferCell cell : b) {
 			if (cell.isAvailable()) {
-				cell.occupy(order, address, register);
+				cell.occupy(index,order, address, register);
 				decAvailableBuffers();
 				break;
 			}
