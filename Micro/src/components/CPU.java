@@ -254,6 +254,10 @@ public class CPU {
 	public void addExecuting(Cell executingCell) {
 		this.executing.add(executingCell);
 	}
+	
+	public int getCycle() {
+		return this.cycle;
+	}
 
 	public PriorityQueue<Cell> getWriteBack() {
 		return writeBack;
