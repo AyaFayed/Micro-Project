@@ -16,6 +16,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 	TextArea code;
 	JButton runAll;
 	JButton runNextCycle;
+	JTextArea clockCycle;
 	public TextArea log;
 	public TextArea[][] registers;
 	public TextArea[][] addReservationStations;
@@ -187,8 +188,18 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		leftColumn = new JPanel();
 		leftColumn.setLayout(new GridLayout(2, 1));
 
-		// code
-		leftColumn.add(code);
+		// code and buttons wrapper
+		JPanel codeAndButtonsWrapper = new JPanel(new BorderLayout());
+		codeAndButtonsWrapper.add(code, BorderLayout.CENTER);
+		JPanel buttonsWrapper = new JPanel();
+		buttonsWrapper.add(runAll);
+		buttonsWrapper.add(runNextCycle);
+		clockCycle = new JTextArea("Clock Cycle: ${clockCycle}", 1, 20);
+		clockCycle.setEditable(false);
+		clockCycle.setOpaque(false);
+		buttonsWrapper.add(clockCycle);
+		codeAndButtonsWrapper.add(buttonsWrapper, BorderLayout.SOUTH);
+		leftColumn.add(codeAndButtonsWrapper);
 
 		// buffers
 		JPanel buffers = new JPanel(new GridLayout(2, 1));
