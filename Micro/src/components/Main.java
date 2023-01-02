@@ -20,7 +20,7 @@ public class Main {
 			CPU.getInstance().addInstruction(s);
 			s = sc.nextLine();
 		}
-		CPU.getInstance().run();
+		CPU.getInstance().runAll();
 
 	}
 }

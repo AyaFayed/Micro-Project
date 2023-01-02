@@ -43,13 +43,32 @@ public class CPU {
 		return instance;
 	}
 
-	public void run() {
+	public void runAll() {
 		while (!instructions.isEmpty() || !executing.isEmpty() || !writeBack.isEmpty()) {
 			if (cycle == 0) {
 				displayCycle0();
 				initializeInstructionsTable();
 				cycle++;
 				continue;
+			}
+			Cell writeBackCell = writeBack.poll();
+			execute();
+			issue();
+			if (writeBackCell != null) {
+				writeBack(writeBackCell);
+			}
+			display();
+			cycle++;
+		}
+	}
+
+	public void runNextCycle() {
+		if (!instructions.isEmpty() || !executing.isEmpty() || !writeBack.isEmpty()) {
+			if (cycle == 0) {
+				displayCycle0();
+				initializeInstructionsTable();
+				cycle++;
+				return;
 			}
 			Cell writeBackCell = writeBack.poll();
 			execute();
