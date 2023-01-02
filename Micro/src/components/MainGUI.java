@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import components.CPU;
-import javafx.scene.layout.Border;
 
 public class MainGUI extends JFrame implements ActionListener {
 	JPanel mainPanel;
@@ -27,7 +26,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	public MainGUI() {
 		setVisible(true);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setTitle("Saturn Simulator");
+		setTitle("Micro Project");
 		setMinimumSize(new Dimension(500, 500));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		init();
