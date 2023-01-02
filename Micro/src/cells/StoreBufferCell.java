@@ -14,7 +14,6 @@ public class StoreBufferCell extends BufferCell {
 
 	public void execute() {
 		CPU.getInstance().startExecutingInstruction(this.getIndex());
-		Memory.getInstance().store(this.getAddress(), v);
 	}
 
 	public void occupy(int index, int order, String address, String register) {
@@ -38,6 +37,10 @@ public class StoreBufferCell extends BufferCell {
 			CPU.getInstance().addExecuting(this);
 			this.execute();
 		}
+	}
+	
+	public double getV() {
+		return this.v;
 	}
 
 	public void display() {

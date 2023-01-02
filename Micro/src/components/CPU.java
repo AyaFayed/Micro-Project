@@ -5,6 +5,7 @@ import java.util.*;
 import buffers.LoadBuffer;
 import buffers.StoreBuffer;
 import cells.Cell;
+import cells.StoreBufferCell;
 import reservationStations.AddReservationStation;
 import reservationStations.MulReservationStation;
 
@@ -164,8 +165,11 @@ public class CPU {
 			cell.incExecutedCycles();
 			if (cell.finishedExecution()) {
 				instructionsTable[cell.getIndex()][4] += "" + cycle;
-				if (cell.getTag().charAt(0) != 's')
-					writeBack.add(cell);
+				if (cell.getTag().charAt(0) != 's') {
+					writeBack.add(cell);}
+				else if (cell.getTag().charAt(0) == 's'){
+					Memory.getInstance().store(((StoreBufferCell)cell).getAddress(), ((StoreBufferCell)cell).getV());
+				}
 			} else {
 				stillExecuting.add(cell);
 			}

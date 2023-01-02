@@ -27,7 +27,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		setTitle("Micro Project");
 		setMinimumSize(new Dimension(500, 500));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		// init();
+		//init();
 		executionPanel();
 	}
 
