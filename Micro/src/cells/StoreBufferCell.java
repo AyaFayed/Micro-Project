@@ -13,6 +13,7 @@ public class StoreBufferCell extends BufferCell {
 	}
 
 	public void execute() {
+		CPU.getInstance().startExecutingInstruction(this.getOrder());
 		Memory.getInstance().store(this.getAddress(), v);
 	}
 

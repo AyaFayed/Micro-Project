@@ -18,6 +18,7 @@ public class CPU {
 	private int issueOrder;
 	private int cycle = 0;
 	private Queue<Instruction> instructions;
+	private String[][] instructionsTable;
 	private ArrayList<Cell> executing;
 	private PriorityQueue<Cell> writeBack;
 	private LoadBuffer loadBuffer;
@@ -32,8 +33,8 @@ public class CPU {
 		this.executing = new ArrayList<>();
 		this.writeBack = new PriorityQueue<>((cell1, cell2) -> cell1.getOrder() - cell2.getOrder());
 		this.issueOrder = 0;
-		loadBuffer = new LoadBuffer(loadLatency);
-		storeBuffer = new StoreBuffer(storeLatency);
+		this.loadBuffer = new LoadBuffer(loadLatency);
+		this.storeBuffer = new StoreBuffer(storeLatency);
 	}
 
 	public static CPU getInstance() {
@@ -42,8 +43,9 @@ public class CPU {
 
 	public void run() {
 		while (!instructions.isEmpty() || !executing.isEmpty() || !writeBack.isEmpty()) {
-			if(cycle==0) {
+			if (cycle == 0) {
 				displayCycle0();
+				initializeInstructionsTable();
 				cycle++;
 				continue;
 			}
@@ -55,6 +57,23 @@ public class CPU {
 			issue();
 			display();
 			cycle++;
+		}
+	}
+
+	public void initializeInstructionsTable() {
+		int n = instructions.size();
+		this.instructionsTable = new String[n][6];
+		for (int i = 0; i < n; i++) {
+			Instruction instruction = instructions.poll();
+			instructions.add(instruction);
+			this.instructionsTable[i][0] = instruction.getInstruction();
+			this.instructionsTable[i][1] = instruction.getOperand1().toUpperCase();
+			this.instructionsTable[i][2] = instruction.getOperand2() == null ? ""
+					: instruction.getOperand2().toUpperCase();
+			this.instructionsTable[i][3] = "";
+			this.instructionsTable[i][4] = "";
+			this.instructionsTable[i][5] = "";
+
 		}
 	}
 
@@ -83,6 +102,7 @@ public class CPU {
 	public void issue() {
 		if (canIssue()) {
 			Instruction instruction = instructions.poll();
+			instructionsTable[issueOrder][3] = "" + cycle;
 			String tag;
 			switch (instruction.getOperation()) {
 			case ADD:
@@ -122,7 +142,8 @@ public class CPU {
 			}
 		}
 		for (int i : finished) {
-			executing.remove(i);
+			Cell finishedExecution = executing.remove(i);
+			instructionsTable[finishedExecution.getOrder()][4] += "" + cycle;
 		}
 	}
 
@@ -144,7 +165,12 @@ public class CPU {
 		storeBuffer.checkValueOnBus(cell.getTag(), result);
 		addReservationStation.checkValueOnBus(cell.getTag(), result);
 		mulReservationStation.checkValueOnBus(cell.getTag(), result);
+		instructionsTable[cell.getOrder()][5] = "" + cycle;
 
+	}
+	
+	public void startExecutingInstruction(int index) {
+		instructionsTable[index][4] = "" + (cycle+1)+ "..";
 	}
 
 	public int getAddLatency() {
@@ -218,6 +244,8 @@ public class CPU {
 		System.out.println("Cycle " + cycle);
 		System.out.println("---------------------------");
 		displayInstructionQueue();
+		for(String [] arr: instructionsTable)
+		System.out.println(Arrays.toString(arr));
 		Registers.getInstance().display();
 		addReservationStation.display();
 		mulReservationStation.display();
@@ -225,7 +253,7 @@ public class CPU {
 		storeBuffer.display();
 		System.out.println("--------------------------------------------------------");
 	}
-	
+
 	public void displayCycle0() {
 		System.out.println("Cycle 0");
 		System.out.println("---------------------------");

@@ -17,6 +17,7 @@ public class LoadBufferCell extends BufferCell {
 	}
 
 	public void execute() {
+		CPU.getInstance().startExecutingInstruction(this.getOrder());
 		this.setResult(Memory.getInstance().load(this.getAddress()));
 	}
 

@@ -46,6 +46,7 @@ public class ReservationStationCell extends Cell {
 	}
 
 	public void execute() {
+		CPU.getInstance().startExecutingInstruction(this.getOrder());
 		switch (op) {
 		case ADD:
 			setResult(vj + vk);

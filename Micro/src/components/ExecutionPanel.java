@@ -8,8 +8,8 @@ import javax.swing.*;
 
 import components.CPU;
 
-public class ExecutionPanel extends JPanel implements ActionListener  {
-	
+public class ExecutionPanel extends JPanel implements ActionListener {
+
 	JPanel mainPanel;
 	TextArea code;
 	JButton runAll;
@@ -22,8 +22,8 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 	public TextArea[][] mulReservationStations;
 	public TextArea[][] loadBuffers;
 	public TextArea[][] storeBuffers;
-	public TextArea[][]  instructionsQueue;
-	
+	public TextArea[][] instructionsQueue;
+
 	public ExecutionPanel() {
 		codeRead = false;
 		code = new TextArea();
@@ -34,21 +34,21 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 		nextCycle.addActionListener(this);
 		runAll.addActionListener(this);
 		reset.addActionListener(this);
-		//open the lecture for reference
+		// open the lecture for reference
 		registers = new TextArea[33][2];
-		
+
 		registers[0][0] = new TextArea("Register", 1, 20, TextArea.SCROLLBARS_NONE);
 		registers[0][0].setEditable(false);
 		registers[0][1] = new TextArea("Value", 1, 20, TextArea.SCROLLBARS_NONE);
 		registers[0][1].setEditable(false);
-		
-		for(int i=1;i<33;i++) {
-			registers[i][0] = new TextArea("F"+(i-1), 1, 20, TextArea.SCROLLBARS_NONE);
+
+		for (int i = 1; i < 33; i++) {
+			registers[i][0] = new TextArea("F" + (i - 1), 1, 20, TextArea.SCROLLBARS_NONE);
 			registers[i][0].setEditable(false);
 			registers[i][1] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
 			registers[i][1].setEditable(false);
 		}
-		
+
 		mulReservationStations = new TextArea[3][7];
 		mulReservationStations[0][0] = new TextArea("Tag", 1, 20, TextArea.SCROLLBARS_NONE);
 		mulReservationStations[0][0].setEditable(false);
@@ -64,10 +64,10 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 		mulReservationStations[0][5].setEditable(false);
 		mulReservationStations[0][6] = new TextArea("Qk", 1, 20, TextArea.SCROLLBARS_NONE);
 		mulReservationStations[0][6].setEditable(false);
-		
-		for(int i=1;i<3;i++) {
+
+		for (int i = 1; i < 3; i++) {
 			mulReservationStations[i][0] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
-			mulReservationStations[i][0].setText("M"+i);
+			mulReservationStations[i][0].setText("M" + i);
 			mulReservationStations[i][0].setEditable(false);
 			mulReservationStations[i][1] = new TextArea("0", 1, 20, TextArea.SCROLLBARS_NONE);
 			mulReservationStations[i][1].setEditable(false);
@@ -81,9 +81,9 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 			mulReservationStations[i][5].setEditable(false);
 			mulReservationStations[i][6] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
 			mulReservationStations[i][6].setEditable(false);
-		
+
 		}
-		
+
 		addReservationStations = new TextArea[4][7];
 		addReservationStations[0][0] = new TextArea("Tag", 1, 20, TextArea.SCROLLBARS_NONE);
 		addReservationStations[0][0].setEditable(false);
@@ -99,7 +99,7 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 		addReservationStations[0][5].setEditable(false);
 		addReservationStations[0][6] = new TextArea("Qk", 1, 20, TextArea.SCROLLBARS_NONE);
 		addReservationStations[0][6].setEditable(false);
-		
+
 		loadBuffers = new TextArea[4][3];
 		loadBuffers[0][0] = new TextArea("Tag", 1, 20, TextArea.SCROLLBARS_NONE);
 		loadBuffers[0][0].setEditable(false);
@@ -107,7 +107,7 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 		loadBuffers[0][1].setEditable(false);
 		loadBuffers[0][2] = new TextArea("Address", 1, 20, TextArea.SCROLLBARS_NONE);
 		loadBuffers[0][2].setEditable(false);
-		
+
 		storeBuffers = new TextArea[4][5];
 		storeBuffers[0][0] = new TextArea("Tag", 1, 20, TextArea.SCROLLBARS_NONE);
 		storeBuffers[0][0].setEditable(false);
@@ -119,9 +119,9 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 		storeBuffers[0][3].setEditable(false);
 		storeBuffers[0][4] = new TextArea("Q", 1, 20, TextArea.SCROLLBARS_NONE);
 		storeBuffers[0][4].setEditable(false);
-		
-		for(int i=1;i<4;i++) {
-			addReservationStations[i][0] = new TextArea("A"+i, 1, 20, TextArea.SCROLLBARS_NONE);
+
+		for (int i = 1; i < 4; i++) {
+			addReservationStations[i][0] = new TextArea("A" + i, 1, 20, TextArea.SCROLLBARS_NONE);
 			addReservationStations[i][0].setEditable(false);
 			addReservationStations[i][1] = new TextArea("0", 1, 20, TextArea.SCROLLBARS_NONE);
 			addReservationStations[i][1].setEditable(false);
@@ -135,15 +135,15 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 			addReservationStations[i][5].setEditable(false);
 			addReservationStations[i][6] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
 			addReservationStations[i][6].setEditable(false);
-			
-			loadBuffers[i][0] = new TextArea("L"+i, 1, 20, TextArea.SCROLLBARS_NONE);
+
+			loadBuffers[i][0] = new TextArea("L" + i, 1, 20, TextArea.SCROLLBARS_NONE);
 			loadBuffers[i][0].setEditable(false);
 			loadBuffers[i][1] = new TextArea("0", 1, 20, TextArea.SCROLLBARS_NONE);
 			loadBuffers[i][1].setEditable(false);
 			loadBuffers[i][2] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
 			loadBuffers[i][2].setEditable(false);
-			
-			storeBuffers[i][0] = new TextArea("S"+i, 1, 20, TextArea.SCROLLBARS_NONE);
+
+			storeBuffers[i][0] = new TextArea("S" + i, 1, 20, TextArea.SCROLLBARS_NONE);
 			storeBuffers[i][0].setEditable(false);
 			storeBuffers[i][1] = new TextArea("0", 1, 20, TextArea.SCROLLBARS_NONE);
 			storeBuffers[i][1].setEditable(false);
@@ -154,7 +154,7 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 			storeBuffers[i][4] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
 			storeBuffers[i][4].setEditable(false);
 		}
-		
+
 		instructionsQueue = new TextArea[code.getRows()][6];
 		instructionsQueue[0][0] = new TextArea("Instruction", 1, 20, TextArea.SCROLLBARS_NONE);
 		instructionsQueue[0][0].setEditable(false);
@@ -168,14 +168,13 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 		instructionsQueue[0][4].setEditable(false);
 		instructionsQueue[0][5] = new TextArea("Write Result", 1, 20, TextArea.SCROLLBARS_NONE);
 		instructionsQueue[0][5].setEditable(false);
-		
+
 	}
-	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

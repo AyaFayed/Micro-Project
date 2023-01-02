@@ -44,10 +44,10 @@ public class Instruction {
 			break;
 		}
 		String[] operands = inst[1].split(",");
-		this.destination = operands[0].toLowerCase();
-		this.operand1 = operands[1].toLowerCase();
+		this.destination = operands[0].toLowerCase().trim();
+		this.operand1 = operands[1].toLowerCase().trim();
 		if (operands.length == 3) {
-			this.operand2 = operands[2].toLowerCase();
+			this.operand2 = operands[2].toLowerCase().trim();
 		} else {
 			this.operand2 = null;
 		}
@@ -67,6 +67,10 @@ public class Instruction {
 
 	public String getDestination() {
 		return destination;
+	}
+
+	public String getInstruction() {
+		return instruction;
 	}
 
 	public void display() {
