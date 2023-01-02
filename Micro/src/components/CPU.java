@@ -134,6 +134,7 @@ public class CPU {
 	}
 
 	public void execute() {
+		ArrayList<Cell> stillExecuting= new ArrayList<>();
 		for (int i = 0; i < executing.size(); i++) {
 			Cell cell = executing.get(i);
 			if(willStartExecutionInTheNextCycle.contains(cell.getIndex())) {
@@ -142,22 +143,15 @@ public class CPU {
 			}
 			cell.incExecutedCycles();
 			if (cell.finishedExecution()) {
+				instructionsTable[cell.getIndex()][4] += "" + cycle;
 				if (cell.getTag().charAt(0) != 's')
 					writeBack.add(cell);
-			}
-		}
-		ArrayList<Cell> stillExecuting= new ArrayList<>();
-		
-		for (int i = 0; i < executing.size(); i++) {
-			Cell cell = executing.get(i);
-			if(cell.finishedExecution()) {
-				instructionsTable[cell.getIndex()][4] += "" + cycle;
 			}
 			else {
 				stillExecuting.add(cell);
 			}
 		}
-		
+	
 		executing = stillExecuting;
 	}
 
