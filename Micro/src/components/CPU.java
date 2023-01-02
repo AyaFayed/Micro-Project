@@ -42,13 +42,18 @@ public class CPU {
 
 	public void run() {
 		while (!instructions.isEmpty() || !executing.isEmpty() || !writeBack.isEmpty()) {
-			display();
+			if(cycle==0) {
+				displayCycle0();
+				cycle++;
+				continue;
+			}
 			Cell writeBackCell = writeBack.poll();
 			execute();
 			if (writeBackCell != null) {
 				writeBack(writeBackCell);
 			}
 			issue();
+			display();
 			cycle++;
 		}
 	}
@@ -218,6 +223,13 @@ public class CPU {
 		mulReservationStation.display();
 		loadBuffer.display();
 		storeBuffer.display();
+		System.out.println("--------------------------------------------------------");
+	}
+	
+	public void displayCycle0() {
+		System.out.println("Cycle 0");
+		System.out.println("---------------------------");
+		System.out.println("Fetching...");
 		System.out.println("--------------------------------------------------------");
 	}
 

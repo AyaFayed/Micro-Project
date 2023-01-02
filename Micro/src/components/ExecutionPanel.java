@@ -22,7 +22,7 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 	public TextArea[][] mulReservationStations;
 	public TextArea[][] loadBuffers;
 	public TextArea[][] storeBuffers;
-	public TextArea[][]  instructionsTable;
+	public TextArea[][]  instructionsQueue;
 	
 	public ExecutionPanel() {
 		codeRead = false;
@@ -155,19 +155,19 @@ public class ExecutionPanel extends JPanel implements ActionListener  {
 			storeBuffers[i][4].setEditable(false);
 		}
 		
-		instructionsTable = new TextArea[code.getRows()][6];
-		instructionsTable[0][0] = new TextArea("Instruction", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsTable[0][0].setEditable(false);
-		instructionsTable[0][1] = new TextArea("j", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsTable[0][1].setEditable(false);
-		instructionsTable[0][2] = new TextArea("k", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsTable[0][2].setEditable(false);
-		instructionsTable[0][3] = new TextArea("Issue", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsTable[0][3].setEditable(false);
-		instructionsTable[0][4] = new TextArea("Execution", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsTable[0][4].setEditable(false);
-		instructionsTable[0][5] = new TextArea("Write Result", 1, 20, TextArea.SCROLLBARS_NONE);
-		instructionsTable[0][5].setEditable(false);
+		instructionsQueue = new TextArea[code.getRows()][6];
+		instructionsQueue[0][0] = new TextArea("Instruction", 1, 20, TextArea.SCROLLBARS_NONE);
+		instructionsQueue[0][0].setEditable(false);
+		instructionsQueue[0][1] = new TextArea("j", 1, 20, TextArea.SCROLLBARS_NONE);
+		instructionsQueue[0][1].setEditable(false);
+		instructionsQueue[0][2] = new TextArea("k", 1, 20, TextArea.SCROLLBARS_NONE);
+		instructionsQueue[0][2].setEditable(false);
+		instructionsQueue[0][3] = new TextArea("Issue", 1, 20, TextArea.SCROLLBARS_NONE);
+		instructionsQueue[0][3].setEditable(false);
+		instructionsQueue[0][4] = new TextArea("Execution", 1, 20, TextArea.SCROLLBARS_NONE);
+		instructionsQueue[0][4].setEditable(false);
+		instructionsQueue[0][5] = new TextArea("Write Result", 1, 20, TextArea.SCROLLBARS_NONE);
+		instructionsQueue[0][5].setEditable(false);
 		
 	}
 	
