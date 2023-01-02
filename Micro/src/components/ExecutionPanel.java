@@ -7,14 +7,15 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import components.CPU;
-import javafx.scene.layout.Border;
-import sun.net.www.content.image.jpeg;
+//import javafx.scene.layout.Border;
+//import sun.net.www.content.image.jpeg;
 
 public class ExecutionPanel extends JPanel implements ActionListener {
 
 	JPanel mainPanel;
 	TextArea code;
-	JButton run;
+	JButton runAll;
+	JButton runNextCycle;
 	public TextArea log;
 	public TextArea[][] registers;
 	public TextArea[][] addReservationStations;
@@ -47,8 +48,11 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		instructionsQueue = new TextArea[1][6];
 		initializeinstructionsQueue();
 
-		run = new JButton("Run");
-		run.addActionListener(this);
+		runAll = new JButton("Run All");
+		runAll.addActionListener(this);
+
+		runNextCycle = new JButton("Run Next Cycle");
+		runNextCycle.addActionListener(this);
 		// open the lecture for reference
 		registers = new TextArea[35][2];
 
@@ -345,15 +349,15 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == run) {
+		if (e.getSource() == runAll) {
 			code.setEditable(false);
 			instructionsQueue = new TextArea[code.getRows()][6];
 			initializeinstructionsQueue();
 			try {
 //				For each instruction (line of code)
 //				CPU.getInstance().addInstruction(line of code);
-				CPU.getInstance().run();
-				run.setEnabled(false);
+				CPU.getInstance().runAll();
+				runAll.setEnabled(false);
 			} catch (Exception ex) {
 				// System.out.println(ex.getMessage());
 			}
