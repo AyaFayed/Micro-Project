@@ -100,3 +100,62 @@ Holds information about the available cells and the size of the buffer and it re
     - display(String)
     - freeCell(String)
     ..
+
+### LoadBuffer & StoreBuffer
+Both Extend ```Buffer``` class and specify the size of it in addtion to Overriding the different functions.
+
+
+## Reservation Stations
+Tomasulo's architecture has to different blocks of resrvation stations one concerned with the add/sub and for mul/div. Reservation stations hold the instruction from fetching till writing the result back.
+
+### ReservationStation
+The Super class for all reservation stations classes that contains the common attributes and functions of them.
+
+- Attributes:
+    - availableReservationStations : int
+    - reservationStation : ReservationStationCell[]
+    - size : int
+- Functions:
+    - add(int, int, Operation, String, String)
+    - checkValueOnBus(String, double)
+    - display(String)
+    - freeCell(String)
+    - hasAvailableReservationStations()
+    - isEmpty()
+
+### AddReservationStations & MulReservationStations
+Both Extend ```ReservationStation``` class and specify the size of it in addtion to Overriding the different functions.
+
+
+# Files Structure
+```
+.
+├─── buffers
+│       Buffer.java
+│       LoadBuffer.java
+│       StoreBuffer.java
+│
+├─── cells
+│       BufferCell.java
+│       Cell.java
+│       LoadBufferCell.java
+│       ReservationStationCell.java
+│       StoreBufferCell.java
+│
+├─── components
+│       CPU.java
+│       ExecutionPanel.java
+│       Instruction.java
+│       Main.java
+│       MainGUI.java
+│       Memory.java
+│       Operation.java
+│       Registers.java
+│
+└─── reservationStations
+        AddReservationStation.java
+        MulReservationStation.java
+        ReservationStation.java
+```
+
+// TODO: screenshots + code demo
