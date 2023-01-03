@@ -47,7 +47,7 @@ public class StoreBufferCell extends BufferCell {
 	}
 	
 	public String [] getUI() {
-		return new String[] {""+ getBusy(),getAddress()==null?"":""+getAddress(), v==null?"":""+v , q==null?"":""+q };
+		return new String[] {""+ getBusy(),getAddress()==null?"":""+getAddress(), v==null?"":""+v , q==null?"":""+q.toUpperCase() };
 	}
 
 }

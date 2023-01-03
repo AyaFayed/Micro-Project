@@ -97,8 +97,8 @@ public class ReservationStationCell extends Cell {
 	}
 	
 	public String [] getUI() {
-		String [] tableUI= new String[] {""+getBusy(), op==null?"":""+op, vj==null?"":""+vj, vk==null?"":""+vk, qj==null?"":""+qj,
-				qk==null?"":""+qk};
+		String [] tableUI= new String[] {""+getBusy(), op==null?"":""+op, vj==null?"":""+vj, vk==null?"":""+vk, qj==null?"":""+qj.toUpperCase(),
+				qk==null?"":""+qk.toUpperCase()};
 		return tableUI;
 	}
 

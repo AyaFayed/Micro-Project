@@ -105,7 +105,7 @@ public class Registers {
 		Pair [] tableUI= new Pair[registers.size()];
 		int i=0;
 		for (Entry<String, String[]> reg : registers.entrySet()) {
-			tableUI[i++]= new Pair(Integer.parseInt(reg.getKey().substring(1)),reg.getValue()[1]);
+			tableUI[i++]= new Pair(Integer.parseInt(reg.getKey().substring(1)),reg.getValue()[0].equals("0")?reg.getValue()[1]:reg.getValue()[0].toUpperCase());
 		}
 		return tableUI;
 	}
