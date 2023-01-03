@@ -380,7 +380,7 @@ public class CPU {
 		
 		int i= 3;
 		for(Pair entry: memoryTable) {
-			ExecutionPanel.getInstance().memory[i++][0].setText(""+entry.getKey());
+			ExecutionPanel.getInstance().memory[i][0].setText(""+entry.getKey());
 			ExecutionPanel.getInstance().memory[i++][1].setText(""+entry.getValue());
 		}
 		

@@ -85,7 +85,7 @@ public class MainGUI extends JFrame implements ActionListener {
 			}
 			mainPanel.add(new JPanel());
 		}
-
+		mainPanel.setBackground(new Color(0, 0, 0));
 		this.add(mainPanel);
 		this.repaint();
 		this.validate();
@@ -94,6 +94,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	void executionPanel() {
 		this.getContentPane().removeAll();
 		mainPanel = ExecutionPanel.getInstance();
+		mainPanel.setBackground(new Color(0, 0, 0));
 		this.add(mainPanel);
 		this.repaint();
 		this.validate();

@@ -20,7 +20,13 @@ public abstract class BufferCell extends Cell {
 	public String getAddress() {
 		return address;
 	}
-
+	
+	@Override
+	public void free() {
+		super.free();
+		this.setAddress(null);
+	}
+	
 	public void setAddress(String address) {
 		this.address = address;
 	}
