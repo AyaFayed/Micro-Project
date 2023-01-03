@@ -46,7 +46,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		code = new TextArea();
 		code.setFont(new Font("Calisto MT", 0, 22));
 
-		instructionsQueue = new TextArea[18][6];
+		instructionsQueue = new TextArea[35][6];
 		initializeinstructionsQueue();
 
 		runAll = new JButton("Run All");
@@ -281,7 +281,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 
 		instructionsQueueContainer.add(new Label("Instruction Queue"), BorderLayout.NORTH);
 		JPanel instructionsQueueTable = new JPanel(new GridLayout(instructionsQueue.length, instructionsQueue[0].length));
-		instructionsQueueTable.setPreferredSize(new Dimension(100, 100));
+		instructionsQueueTable.setPreferredSize(new Dimension(100, 1200));
 		for (int i = 0; i < instructionsQueue.length; i++) {
 			for (int j = 0; j < instructionsQueue[0].length; j++) {
 				instructionsQueueTable.add(instructionsQueue[i][j]);
