@@ -52,13 +52,17 @@ Extends `Cell` class and adds to it the additional attributes and behaviours of 
   - qk : String
   - vj : Double
   - vk : Double
+    
     ..
+
 - Functions:
   - checkValueOnBus(String, double)
   - display()
   - execute()
   - isReady()
+
     ..
+
 
 ### BufferCell
 
@@ -66,10 +70,12 @@ Extends `Cell` class and adds to it additional attributes and behaviours of Buff
 
 - Attributes
   - address : String
+
 - Functions:
   - checkValueOnBus(String, double)
   - getAddress()
   - occupy(int, int, String)
+    
     ..
 
 #### LoadBufferCell
@@ -103,12 +109,15 @@ Holds information about the available cells and the size of the buffer and it re
   - availableBuffers : int
   - buffer : BufferCell[]
   - size : int
+    
     ..
+
 - Functions:
   - add(int, int, String)
   - decAvailableBuffers()
   - display(String)
   - freeCell(String)
+    
     ..
 
 ### LoadBuffer & StoreBuffer
@@ -127,6 +136,7 @@ The Super class for all reservation stations classes that contains the common at
   - availableReservationStations : int
   - reservationStation : ReservationStationCell[]
   - size : int
+
 - Functions:
   - add(int, int, Operation, String, String)
   - checkValueOnBus(String, double)
@@ -161,11 +171,14 @@ To run the project all you have to do is run ```src/gui/MainGUI.java```.
 ## Demo
 
 ### Example 1
+
 This demo is from lecture 11-12
+
 - latencies
     - Add / Sub latency 2 cycles
     - Mul latency 10 cycles
     - Div latency 40 cycles
+
 ```assembly
 L.D F6, 1
 L.D F2, 2
@@ -176,26 +189,42 @@ Add.D F6, F8, F2
 ```
 
 #### Final output
+
 ![final output](https://i.postimg.cc/13xSk2tM/Micro-Project-1-3-2023-8-09-12-PM.png)
 
 ### Example 2
 
 - latencies: all 2 cycles
+
 ```assembly
 Add.D F0, F0, F1
 Mul.D F1, F1, F0
 ```
+
 Cycle 1
+
 ![Cycle1](https://i.postimg.cc/hGTkDSCh/cycle1.png)
+
 Cycle 2
+
 ![Cycle2](https://i.postimg.cc/W1FRymgG/cycle2.png)
+
 Cycle 3
+
 ![Cycle3](https://i.postimg.cc/g2C9bwHf/cycle3.png)
+
 Cycle 4
+
 ![Cycle4](https://i.postimg.cc/9FN51gRX/cycle4.png)
+
 Cycle 5
+
 ![Cycle5](https://i.postimg.cc/GtX0WqXQ/cycle5.png)
+
 Cycle 6
+
 ![Cycle6](https://i.postimg.cc/V6BPRYM2/cycle6.png)
-Cycle 7 (final)
+
+Cycle 7(final)
+
 ![Cycle7](https://i.postimg.cc/85VVMFFh/cycle7.png)

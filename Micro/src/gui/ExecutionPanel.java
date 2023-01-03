@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import components.CPU;
+import components.Memory;
+import components.Registers;
 //import javafx.scene.layout.Border;
 //import sun.net.www.content.image.jpeg;
 
@@ -67,7 +69,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 				registers[i][0] = new TextArea("F" + (i - 3), 1, 20, TextArea.SCROLLBARS_NONE);
 				registers[i][0].setEditable(false);
 				registers[i][1] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
-				registers[i][1].setEditable(false);
+//				registers[i][1].setEditable(false);
 			}
 		}
 
@@ -179,7 +181,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		initializeMemory();
 		paint();
 	}
-	
+
 	public static ExecutionPanel getInstance() {
 		return instance;
 	}
@@ -280,7 +282,8 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		JPanel instructionsQueueContainer = new JPanel(new BorderLayout());
 
 		instructionsQueueContainer.add(new Label("Instruction Queue"), BorderLayout.NORTH);
-		JPanel instructionsQueueTable = new JPanel(new GridLayout(instructionsQueue.length, instructionsQueue[0].length));
+		JPanel instructionsQueueTable = new JPanel(
+				new GridLayout(instructionsQueue.length, instructionsQueue[0].length));
 		instructionsQueueTable.setPreferredSize(new Dimension(100, 1250));
 		for (int i = 0; i < instructionsQueue.length; i++) {
 			for (int j = 0; j < instructionsQueue[0].length; j++) {
@@ -339,9 +342,9 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 				memory[i][1].setEditable(false);
 			} else {
 				memory[i][0] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
-				memory[i][0].setEditable(false);
+//				memory[i][0].setEditable(false);
 				memory[i][1] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
-				memory[i][1].setEditable(false);
+//				memory[i][1].setEditable(false);
 			}
 		}
 	}
@@ -359,11 +362,31 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		instructionsQueue[0][4].setEditable(false);
 		instructionsQueue[0][5] = new TextArea("Write Result", 1, 20, TextArea.SCROLLBARS_NONE);
 		instructionsQueue[0][5].setEditable(false);
-		for(int i=1;i<instructionsQueue.length;i++) {
-			for(int j=0; j<6; j++) {
+		for (int i = 1; i < instructionsQueue.length; i++) {
+			for (int j = 0; j < 6; j++) {
 				instructionsQueue[i][j] = new TextArea("", 1, 20, TextArea.SCROLLBARS_NONE);
 				instructionsQueue[i][j].setEditable(false);
 			}
+		}
+	}
+
+	void fillMemoryAndRegisters() {
+		for (int i = 3; i < memory.length; i++) {
+			memory[i][0].setEditable(false);
+			memory[i][1].setEditable(false);
+			if(memory[i][0].getText().equals("")) {
+				continue;
+			}System.out.println(i);
+			Memory.getInstance().store(memory[i][0].getText(), Double.parseDouble(memory[i][1].getText()));
+		}
+		
+		for (int i = 3; i < registers.length; i++) {
+			registers[i][0].setEditable(false);
+			registers[i][1].setEditable(false);
+			if(registers[i][1].getText().equals("")) {
+				continue;
+			}
+			Registers.getInstance().write(registers[i][0].getText(), Double.parseDouble(registers[i][1].getText()));
 		}
 	}
 
@@ -371,18 +394,21 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == runAll) {
 			if (CPU.getInstance().getCycle() == 0) {
-			code.setEditable(false);
-			String[] instructions = code.getText().split("\n");
-			for (String instruction : instructions) {
-				if (instruction.length() > 0)
-					CPU.getInstance().addInstruction(instruction.trim());
-			}}
+				fillMemoryAndRegisters();
+				code.setEditable(false);
+				String[] instructions = code.getText().split("\n");
+				for (String instruction : instructions) {
+					if (instruction.length() > 0)
+						CPU.getInstance().addInstruction(instruction.trim());
+				}
+			}
 			CPU.getInstance().runAll();
 			runAll.setEnabled(false);
 			runNextCycle.setEnabled(false);
 
 		} else if (e.getSource() == runNextCycle) {
 			if (CPU.getInstance().getCycle() == 0) {
+				fillMemoryAndRegisters();
 				code.setEditable(false);
 				String[] instructions = code.getText().split("\n");
 				for (String instruction : instructions) {
@@ -391,7 +417,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 				}
 			}
 			CPU.getInstance().runNextCycle();
-			if(CPU.getInstance().finishedExecution()) {
+			if (CPU.getInstance().finishedExecution()) {
 				runAll.setEnabled(false);
 				runNextCycle.setEnabled(false);
 			}
