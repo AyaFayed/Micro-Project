@@ -3,6 +3,8 @@ package components;
 import java.util.*;
 import java.util.Map.Entry;
 
+import helper.Pair;
+
 public class Memory {
 	private HashMap<String, Double> mem;
 
@@ -30,6 +32,15 @@ public class Memory {
 			System.out.println(item.getKey().toUpperCase() + " " + item.getValue());
 		}
 		System.out.println("---------------------------------------------------");
+	}
+	
+	public Pair [] getUI() {
+		Pair [] tableUI = new Pair[mem.size()];
+		int i=0;
+		for (Entry<String, Double> item : mem.entrySet()) {
+			tableUI[i++]= new Pair(Integer.parseInt(item.getKey()), ""+item.getValue() );
+		}
+		return tableUI;
 	}
 
 }

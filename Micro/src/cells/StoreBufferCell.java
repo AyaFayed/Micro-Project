@@ -1,7 +1,6 @@
 package cells;
 
 import components.CPU;
-import components.Memory;
 import components.Registers;
 
 public class StoreBufferCell extends BufferCell {
@@ -45,6 +44,10 @@ public class StoreBufferCell extends BufferCell {
 
 	public void display() {
 		System.out.println(getTag().toUpperCase() + " " + getBusy() + " " + getAddress() + " " + v + " " + q);
+	}
+	
+	public String [] getUI() {
+		return new String[] {""+ getBusy(),getAddress()==null?"":""+getAddress(), v==null?"":""+v , q==null?"":""+q };
 	}
 
 }

@@ -85,4 +85,6 @@ public abstract class Cell {
 	public abstract void execute();
 
 	public abstract void display();
+	
+	public abstract String [] getUI();
 }

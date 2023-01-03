@@ -1,4 +1,4 @@
-package components;
+package gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -93,7 +93,7 @@ public class MainGUI extends JFrame implements ActionListener {
 
 	void executionPanel() {
 		this.getContentPane().removeAll();
-		mainPanel = new ExecutionPanel();
+		mainPanel = ExecutionPanel.getInstance();
 		this.add(mainPanel);
 		this.repaint();
 		this.validate();

@@ -1,4 +1,4 @@
-package components;
+package gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,9 +16,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 	TextArea code;
 	JButton runAll;
 	JButton runNextCycle;
-	JPanel instructionsQueueTable;
 	public JTextArea clockCycle;
-	public TextArea log;
 	public TextArea[][] registers;
 	public TextArea[][] addReservationStations;
 	public TextArea[][] mulReservationStations;
@@ -26,6 +24,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 	public TextArea[][] storeBuffers;
 	public TextArea[][] instructionsQueue;
 	public TextArea[][] memory;
+	private static final ExecutionPanel instance = new ExecutionPanel();
 	/*
 	 * 
 	 * leftColumn: code Buffers: L.D S.D
@@ -43,11 +42,11 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 	private JPanel middleColumn;
 	private JPanel rightColumn;
 
-	public ExecutionPanel() {
+	private ExecutionPanel() {
 		code = new TextArea();
 		code.setFont(new Font("Calisto MT", 0, 22));
 
-		instructionsQueue = new TextArea[1][6];
+		instructionsQueue = new TextArea[18][6];
 		initializeinstructionsQueue();
 
 		runAll = new JButton("Run All");
@@ -180,6 +179,10 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		initializeMemory();
 		paint();
 	}
+	
+	public static ExecutionPanel getInstance() {
+		return instance;
+	}
 
 	void paint() {
 		// main panel layout
@@ -195,7 +198,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		JPanel buttonsWrapper = new JPanel();
 		buttonsWrapper.add(runAll);
 		buttonsWrapper.add(runNextCycle);
-		clockCycle = new JTextArea("Clock Cycle: ${clockCycle}", 1, 20);
+		clockCycle = new JTextArea("Clock Cycle: ", 1, 20);
 		clockCycle.setEditable(false);
 		clockCycle.setOpaque(false);
 		buttonsWrapper.add(clockCycle);
@@ -277,7 +280,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		JPanel instructionsQueueContainer = new JPanel(new BorderLayout());
 
 		instructionsQueueContainer.add(new Label("Instruction Queue"), BorderLayout.NORTH);
-		instructionsQueueTable = new JPanel(new GridLayout(instructionsQueue.length, instructionsQueue[0].length));
+		JPanel instructionsQueueTable = new JPanel(new GridLayout(instructionsQueue.length, instructionsQueue[0].length));
 		instructionsQueueTable.setPreferredSize(new Dimension(100, 100));
 		for (int i = 0; i < instructionsQueue.length; i++) {
 			for (int j = 0; j < instructionsQueue[0].length; j++) {
@@ -362,13 +365,6 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 				instructionsQueue[i][j].setEditable(false);
 			}
 		}
-		instructionsQueueTable = new JPanel(new GridLayout(instructionsQueue.length, instructionsQueue[0].length));
-		instructionsQueueTable.setPreferredSize(new Dimension(100, 100));
-		for (int i = 0; i < instructionsQueue.length; i++) {
-			for (int j = 0; j < instructionsQueue[0].length; j++) {
-				instructionsQueueTable.add(instructionsQueue[i][j]);
-			}
-		}
 	}
 
 	@Override
@@ -376,8 +372,6 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 		if (e.getSource() == runAll) {
 			code.setEditable(false);
 			String[] instructions = code.getText().split("\n");
-			instructionsQueue = new TextArea[instructions.length][6];
-			initializeinstructionsQueue();
 			for (String instruction : instructions) {
 				if (instruction.length() > 0)
 					CPU.getInstance().addInstruction(instruction.trim());
@@ -390,8 +384,6 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 			if (CPU.getInstance().getCycle() == 0) {
 				code.setEditable(false);
 				String[] instructions = code.getText().split("\n");
-				instructionsQueue = new TextArea[instructions.length][6];
-				initializeinstructionsQueue();
 				for (String instruction : instructions) {
 					if (instruction.length() > 0)
 						CPU.getInstance().addInstruction(instruction.trim());
@@ -403,6 +395,8 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 				runNextCycle.setEnabled(false);
 			}
 		}
+		this.repaint();
+		this.revalidate();
 	}
 
 }

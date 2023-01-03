@@ -1,11 +1,17 @@
 package components;
 
+import java.awt.TextArea;
 import java.util.*;
+
+import javax.swing.JTextArea;
 
 import buffers.LoadBuffer;
 import buffers.StoreBuffer;
 import cells.Cell;
 import cells.StoreBufferCell;
+import gui.ExecutionPanel;
+import helper.Instruction;
+import helper.Pair;
 import reservationStations.AddReservationStation;
 import reservationStations.MulReservationStation;
 
@@ -18,7 +24,7 @@ public class CPU {
 	private int storeLatency = 2;
 	private int issueOrder;
 	private int cycle = 0;
-	private boolean done= false;
+	private boolean done = false;
 	private Queue<Instruction> instructions;
 	private String[][] instructionsTable;
 	private ArrayList<Cell> executing;
@@ -48,8 +54,8 @@ public class CPU {
 	public void runAll() {
 		while (!instructions.isEmpty() || !executing.isEmpty() || !writeBack.isEmpty()) {
 			if (cycle == 0) {
-				displayCycle0();
 				initializeInstructionsTable();
+				displayCycle0();
 				cycle++;
 				continue;
 			}
@@ -62,14 +68,14 @@ public class CPU {
 			display();
 			cycle++;
 		}
-		done=true;
+		done = true;
 	}
 
 	public void runNextCycle() {
 		if (!instructions.isEmpty() || !executing.isEmpty() || !writeBack.isEmpty()) {
 			if (cycle == 0) {
-				displayCycle0();
 				initializeInstructionsTable();
+				displayCycle0();
 				cycle++;
 				return;
 			}
@@ -81,9 +87,8 @@ public class CPU {
 			}
 			display();
 			cycle++;
-		}
-		else {
-			done=true;
+		} else {
+			done = true;
 		}
 	}
 
@@ -171,9 +176,9 @@ public class CPU {
 			if (cell.finishedExecution()) {
 				instructionsTable[cell.getIndex()][4] += "" + cycle;
 				if (cell.getTag().charAt(0) != 's') {
-					writeBack.add(cell);}
-				else if (cell.getTag().charAt(0) == 's'){
-					Memory.getInstance().store(((StoreBufferCell)cell).getAddress(), ((StoreBufferCell)cell).getV());
+					writeBack.add(cell);
+				} else if (cell.getTag().charAt(0) == 's') {
+					Memory.getInstance().store(((StoreBufferCell) cell).getAddress(), ((StoreBufferCell) cell).getV());
 				}
 			} else {
 				stillExecuting.add(cell);
@@ -243,6 +248,7 @@ public class CPU {
 	public void incIssueOrder() {
 		this.issueOrder++;
 	}
+
 	public boolean finishedExecution() {
 		return this.done;
 	}
@@ -262,7 +268,7 @@ public class CPU {
 	public void addExecuting(Cell executingCell) {
 		this.executing.add(executingCell);
 	}
-	
+
 	public int getCycle() {
 		return this.cycle;
 	}
@@ -288,6 +294,7 @@ public class CPU {
 	}
 
 	public void display() {
+		buildUI();
 		System.out.println("Cycle " + cycle);
 		System.out.println("---------------------------");
 //		displayInstructionQueue();
@@ -299,13 +306,84 @@ public class CPU {
 		loadBuffer.display();
 		storeBuffer.display();
 		System.out.println("--------------------------------------------------------");
+
 	}
 
 	public void displayCycle0() {
+		buildUI();
 		System.out.println("Cycle 0");
 		System.out.println("---------------------------");
 		System.out.println("Fetching...");
 		System.out.println("--------------------------------------------------------");
 	}
 
+	public void buildUI() {
+
+		// cycle
+		ExecutionPanel.getInstance().clockCycle.setText("Clock Cycle: " + cycle);
+
+		// Instructions table
+		TextArea[][] instructionsTableUI = ExecutionPanel.getInstance().instructionsQueue;
+		for (int i = 1; i < instructionsTableUI.length && i-1< instructionsTable.length; i++) {
+			for (int j = 0; j < 6; j++) {
+				instructionsTableUI[i][j].setText(instructionsTable[i - 1][j]);
+			}
+		}
+
+		// Add RS
+		String[][] addReservationStationTable = addReservationStation.getUI();
+
+		for (int i = 1; i < 4; i++) {
+			for (int j = 1; j < 7; j++) {
+				ExecutionPanel.getInstance().addReservationStations[i][j].setText(
+						addReservationStationTable[i - 1][j - 1]);
+			}
+		}
+
+		// MUL RS
+		String[][] mulReservationStationTable = mulReservationStation.getUI();
+
+		for (int i = 1; i < 3; i++) {
+			for (int j = 1; j < 7; j++) {
+				ExecutionPanel.getInstance().mulReservationStations[i][j].setText(
+						mulReservationStationTable[i - 1][j - 1]);
+			}
+		}
+
+		// Load buffer
+		String[][] loadBufferTable = loadBuffer.getUI();
+
+		for (int i = 1; i < 4; i++) {
+			for (int j = 1; j < 3; j++) {
+				ExecutionPanel.getInstance().loadBuffers[i][j].setText(loadBufferTable[i - 1][j - 1]);
+			}
+		}
+
+		// Store buffer
+		String[][] storeBufferTable = storeBuffer.getUI();
+
+		for (int i = 1; i < 4; i++) {
+			for (int j = 1; j < 5; j++) {
+				ExecutionPanel.getInstance().storeBuffers[i][j].setText(storeBufferTable[i - 1][j - 1]);
+			}
+		}
+		
+		// Registers
+		Pair [] registersTable = Registers.getInstance().getUI();
+		
+		for(Pair register : registersTable ) {
+			ExecutionPanel.getInstance().registers[register.getKey()+3][1].setText(register.getValue());
+		}
+		
+		// Memory
+		Pair [] memoryTable = Memory.getInstance().getUI();
+		
+		int i= 3;
+		for(Pair entry: memoryTable) {
+			ExecutionPanel.getInstance().memory[i++][0].setText(""+entry.getKey());
+			ExecutionPanel.getInstance().memory[i++][1].setText(""+entry.getValue());
+		}
+		
+
+	}
 }

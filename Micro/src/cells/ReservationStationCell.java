@@ -1,8 +1,8 @@
 package cells;
 
 import components.CPU;
-import components.Operation;
 import components.Registers;
+import helper.Operation;
 
 public class ReservationStationCell extends Cell {
 
@@ -94,6 +94,12 @@ public class ReservationStationCell extends Cell {
 	public void display() {
 		System.out.println(
 				getTag().toUpperCase() + " " + getBusy() + " " + op + " " + vj + " " + vk + " " + qj + " " + qk);
+	}
+	
+	public String [] getUI() {
+		String [] tableUI= new String[] {""+getBusy(), op==null?"":""+op, vj==null?"":""+vj, vk==null?"":""+vk, qj==null?"":""+qj,
+				qk==null?"":""+qk};
+		return tableUI;
 	}
 
 }

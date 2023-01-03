@@ -3,6 +3,8 @@ package components;
 import java.util.*;
 import java.util.Map.Entry;
 
+import helper.Pair;
+
 public class Registers {
 	private HashMap<String, String[]> registers;
 	private HashMap<String, HashSet<String>> waitingForResult;
@@ -97,6 +99,15 @@ public class Registers {
 					reg.getKey().toUpperCase() + " " + reg.getValue()[0].toUpperCase() + " " + reg.getValue()[1]);
 		}
 		System.out.println("---------------------------------------------------");
+	}
+	
+	public Pair [] getUI() {
+		Pair [] tableUI= new Pair[registers.size()];
+		int i=0;
+		for (Entry<String, String[]> reg : registers.entrySet()) {
+			tableUI[i++]= new Pair(Integer.parseInt(reg.getKey().substring(1)),reg.getValue()[1]);
+		}
+		return tableUI;
 	}
 
 }

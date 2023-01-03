@@ -56,6 +56,14 @@ public class Buffer {
 		}
 		System.out.println("---------------------------------------------------");
 	}
+	
+	public String [][] getUI(){
+		String [][] tableUI = new String[size][6];
+		for (int i=0; i<buffer.length;i++) {
+			tableUI[i]= buffer[i].getUI();
+		}
+		return tableUI;
+	}
 
 	public BufferCell[] getBuffer() {
 		return buffer;

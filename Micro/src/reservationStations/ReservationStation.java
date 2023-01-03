@@ -1,7 +1,7 @@
 package reservationStations;
 
 import cells.ReservationStationCell;
-import components.Operation;
+import helper.Operation;
 
 public class ReservationStation {
 	private ReservationStationCell[] reservationStation;
@@ -56,6 +56,14 @@ public class ReservationStation {
 			cell.display();
 		}
 		System.out.println("---------------------------------------------------");
+	}
+	
+	public String[][] getUI() {
+		String [][] tableUI = new String[size][6];
+		for (int i=0; i<reservationStation.length;i++) {
+			tableUI[i]= reservationStation[i].getUI();
+		}
+		return tableUI;
 	}
 
 }

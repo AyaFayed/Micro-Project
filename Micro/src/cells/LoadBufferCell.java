@@ -25,5 +25,9 @@ public class LoadBufferCell extends BufferCell {
 	public void display() {
 		System.out.println(getTag().toUpperCase() + " " + getBusy() + " " + getAddress());
 	}
+	
+	public String [] getUI() {
+		return new String[] {""+ getBusy(),getAddress()==null?"":""+getAddress()};
+	}
 
 }
