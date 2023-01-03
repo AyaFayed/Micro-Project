@@ -370,12 +370,13 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == runAll) {
+			if (CPU.getInstance().getCycle() == 0) {
 			code.setEditable(false);
 			String[] instructions = code.getText().split("\n");
 			for (String instruction : instructions) {
 				if (instruction.length() > 0)
 					CPU.getInstance().addInstruction(instruction.trim());
-			}
+			}}
 			CPU.getInstance().runAll();
 			runAll.setEnabled(false);
 			runNextCycle.setEnabled(false);
