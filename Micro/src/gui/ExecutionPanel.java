@@ -281,7 +281,7 @@ public class ExecutionPanel extends JPanel implements ActionListener {
 
 		instructionsQueueContainer.add(new Label("Instruction Queue"), BorderLayout.NORTH);
 		JPanel instructionsQueueTable = new JPanel(new GridLayout(instructionsQueue.length, instructionsQueue[0].length));
-		instructionsQueueTable.setPreferredSize(new Dimension(100, 1200));
+		instructionsQueueTable.setPreferredSize(new Dimension(100, 1250));
 		for (int i = 0; i < instructionsQueue.length; i++) {
 			for (int j = 0; j < instructionsQueue[0].length; j++) {
 				instructionsQueueTable.add(instructionsQueue[i][j]);

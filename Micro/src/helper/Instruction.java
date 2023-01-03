@@ -11,8 +11,9 @@ public class Instruction {
 
 	public Instruction(String instruction) {
 		this.instruction = instruction;
-		String[] inst = instruction.split(" ");
-		String op = inst[0].toLowerCase();
+		String[] inst = instruction.split(",");
+		String [] opAndDestination = inst[0].split(" ");
+		String op = opAndDestination[0].toLowerCase();
 		switch (op) {
 		case "add.d":
 		case "add.s":
@@ -44,11 +45,10 @@ public class Instruction {
 			this.operation = Operation.ADD;
 			break;
 		}
-		String[] operands = inst[1].split(",");
-		this.destination = operands[0].toLowerCase().trim();
-		this.operand1 = operands[1].toLowerCase().trim();
-		if (operands.length == 3) {
-			this.operand2 = operands[2].toLowerCase().trim();
+		this.destination = opAndDestination[1].toLowerCase().trim();
+		this.operand1 = inst[1].toLowerCase().trim();
+		if (inst.length == 3) {
+			this.operand2 = inst[2].toLowerCase().trim();
 		} else {
 			this.operand2 = null;
 		}
